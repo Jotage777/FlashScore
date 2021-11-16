@@ -52,6 +52,7 @@ def raspagem_stats(url,home, away):
     soup2 = BeautifulSoup(html_2, 'html.parser')
     v=soup2.find_all('a')
     rodada = v[4]
+    # Rodada
     print(rodada.get_text())
     times = soup2.find_all('div', class_='participant__participantName participant__overflow')
 
@@ -59,10 +60,14 @@ def raspagem_stats(url,home, away):
     stats_name = soup2.find_all('div', class_='statCategoryName')
     casa_stats = soup2.find_all('div', class_='statHomeValue')
     fora_stats = soup2.find_all('div', class_='statAwayValue')
+    # data e hora
     print(data_hora[0].get_text())
+    # times e resultado
     print(times[0].get_text(), " ", home, " x ", away, " ", times[1].get_text())
     tamanho = len(stats_name)
     cont2=0
+
+    #Estatisticas
     for i in range(tamanho):
 
         print(stats_name[cont2].get_text(), " ", casa_stats[cont2].get_text(), " x ", fora_stats[cont2].get_text())
@@ -78,6 +83,7 @@ browser = webdriver.Chrome()
 browser.get('https://www.flashscore.com.br/futebol/inglaterra/campeonato-ingles/resultados/')
 sleep(1)
 raspagemDados(browser)
+
 
 
 
