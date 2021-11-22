@@ -3,16 +3,18 @@ from bs4 import BeautifulSoup
 from time import sleep
 
 
+
 def raspagemDados(navegador):
     # Acessando os jogos da premier League
-    jogos = navegador.find_element_by_xpath('/html/body/div[5]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div')
+    todos = navegador.find_element_by_xpath('/html/body/div[5]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div/div/a').click()
+    sleep(5)
+    jogos = navegador.find_element_by_xpath('/html/body/div[5]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div/div')
     html_content = jogos.get_attribute('outerHTML')
     soup = BeautifulSoup(html_content, 'html.parser')
     casa = soup.find_all('div', class_='event__score event__score--home')
     fora = soup.find_all('div', class_='event__score event__score--away')
     cont=0
     ultimo=0
-    selc=0
     #Pegando o id de cada jogo
     for rodada in soup.find_all('div', attrs={"class": "event__match event__match--static event__match--twoLine"}):
         if ultimo==9:
@@ -26,7 +28,7 @@ def raspagemDados(navegador):
         raspagem_stats(caminho, casa[cont].get_text(), fora[cont].get_text())
         cont+=1
         ultimo+=1
-        print(ultimo)
+
     cont=9
     #ultimo jogo de cada rodada
     for rod in soup.find_all('div', attrs={"class": "event__match event__match--static event__match--last event__match--twoLine"}):
@@ -39,27 +41,35 @@ def raspagemDados(navegador):
 
 
 
+
 def raspagem_stats(url,home, away):
     nave=webdriver.Chrome()
     nave.get(url)
-    sleep(1)
+    sleep(5)
 
     jogo = nave.find_element_by_xpath('/html/body/div[2]/div')
     html_2 = jogo.get_attribute('outerHTML')
     soup2 = BeautifulSoup(html_2, 'html.parser')
     v=soup2.find_all('a')
     rodada = v[4]
+    # Rodada
     print(rodada.get_text())
     times = soup2.find_all('div', class_='participant__participantName participant__overflow')
-    print(times[0].get_text()," ", home, " x ",away, " ",times[1].get_text())
+
+    data_hora = soup2.find_all('div', class_='duelParticipant__startTime')
     stats_name = soup2.find_all('div', class_='statCategoryName')
     casa_stats = soup2.find_all('div', class_='statHomeValue')
     fora_stats = soup2.find_all('div', class_='statAwayValue')
-
-
+    # data e hora
+    print(data_hora[0].get_text())
+    # times e resultado
+    print(times[0].get_text(), " ", home, " x ", away, " ", times[1].get_text())
     tamanho = len(stats_name)
     cont2=0
+
+    #Estatisticas
     for i in range(tamanho):
+
         print(stats_name[cont2].get_text(), " ", casa_stats[cont2].get_text(), " x ", fora_stats[cont2].get_text())
         cont2+=1
     print("-------------------------------------------------------------------------------------------------------------")
@@ -73,7 +83,6 @@ browser = webdriver.Chrome()
 browser.get('https://www.flashscore.com.br/futebol/inglaterra/campeonato-ingles/resultados/')
 sleep(1)
 raspagemDados(browser)
-
 
 
 
