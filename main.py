@@ -1,8 +1,9 @@
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from time import sleep
-
-
+import os
+import time
+import Banco_Dados
 
 def raspagemDados(navegador):
     # Acessando os jogos da premier League
@@ -79,6 +80,13 @@ def raspagem_stats(url,home, away):
 browser = webdriver.Chrome()
 
 
+# Criando o banco de dados
+
+def __init__(self) -> None:
+    create_db = not os.path.isfile('matches.db')
+    if create_db:
+        Banco_Dados.criar_BD()
+    self.error_count = 0
 # Acessando o flashScore
 browser.get('https://www.flashscore.com.br/futebol/inglaterra/campeonato-ingles/resultados/')
 sleep(1)
