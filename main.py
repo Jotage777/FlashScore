@@ -26,7 +26,7 @@ def raspagemDados(navegador):
         id_j = id_jogo[4:]
         #mudando o id na url
         caminho='https://www.flashscore.com.br/jogo/'+id_j+'/#resumo-de-jogo/estatisticas-de-jogo/0'
-        raspagem_stats(caminho, casa[cont].get_text(), fora[cont].get_text())
+        raspagem_stats(caminho, casa[cont].get_text(), fora[cont].get_text(), id_j)
         cont+=1
         ultimo+=1
 
@@ -36,14 +36,14 @@ def raspagemDados(navegador):
         id_jog = rod['id']
         id_jj = id_jog[4:]
         caminho1 = 'https://www.flashscore.com.br/jogo/' + id_jj + '/#resumo-de-jogo/estatisticas-de-jogo/0'
-        raspagem_stats(caminho1, casa[cont].get_text(), fora[cont].get_text())
+        raspagem_stats(caminho1, casa[cont].get_text(), fora[cont].get_text(), id_jj)
         cont+=10
 
 
 
 
 
-def raspagem_stats(url,home, away):
+def raspagem_stats(url,home, away, id_jogo):
     nave=webdriver.Chrome()
     nave.get(url)
     sleep(5)
@@ -53,27 +53,62 @@ def raspagem_stats(url,home, away):
     soup2 = BeautifulSoup(html_2, 'html.parser')
     v=soup2.find_all('a')
     rodada = v[4]
+
     # Rodada
-    print(rodada.get_text())
+
     times = soup2.find_all('div', class_='participant__participantName participant__overflow')
 
     data_hora = soup2.find_all('div', class_='duelParticipant__startTime')
     stats_name = soup2.find_all('div', class_='statCategoryName')
     casa_stats = soup2.find_all('div', class_='statHomeValue')
     fora_stats = soup2.find_all('div', class_='statAwayValue')
-    # data e hora
-    print(data_hora[0].get_text())
-    # times e resultado
-    print(times[0].get_text(), " ", home, " x ", away, " ", times[1].get_text())
-    tamanho = len(stats_name)
-    cont2=0
-
+    print(stats_name[11].get_text())
     #Estatisticas
-    for i in range(tamanho):
+    if stats_name [11]  ==" Cartões vermelhos":
+        if stats_name [12]  =="Cartões amarelos":
+            Banco_Dados.add_jogos("Premier League", id_jogo,times[0].get_text(),home,times[1].get_text(),away,data_hora[0].get_text(),rodada.get_text(), casa_stats[0].get_text(),fora_stats[0].get_text()
+                                  ,int(casa_stats[1].get_text()),int(fora_stats[1].get_text()),int(casa_stats[2].get_text()),int(fora_stats[2].get_text()),int(casa_stats[3].get_text()),int(fora_stats[3].get_text()),int(casa_stats[4].get_text()),int(fora_stats[4].get_text())
+            ,int(casa_stats[5].get_text()),int(fora_stats[5].get_text()),int(casa_stats[6].get_text()),int(fora_stats[6].get_text()),int(casa_stats[7].get_text()),int(fora_stats[7].get_text()),int(casa_stats[8].get_text()),int(fora_stats[8].get_text()),int(casa_stats[9].get_text()),int(fora_stats[9].get_text())
+            ,int(casa_stats[10].get_text()),int(fora_stats[10].get_text() ),int(casa_stats[11].get_text()),int(fora_stats[11].get_text()),int(casa_stats[12].get_text()),int(fora_stats[12].get_text()),int(casa_stats[13].get_text()),int(fora_stats[13].get_text()),int(casa_stats[14].get_text()),int(fora_stats[14].get_text())
+                                  ,int(casa_stats[15].get_text()),int(fora_stats[15].get_text()),int(casa_stats[16].get_text()),int(fora_stats[16].get_text()), int(casa_stats[17].get_text()), int(fora_stats[17].get_text()))
+        else:
+            Banco_Dados.add_jogos("Premier League", id_jogo, times[0].get_text(), home,
+                                 times[1].get_text(), away, data_hora[0].get_text(),rodada.get_text(),
+                                  casa_stats[0].get_text(), fora_stats[0].get_text()
+                                  , int(casa_stats[1].get_text()), int(fora_stats[1].get_text()), int(casa_stats[2].get_text()), int(fora_stats[2].get_text()),
+                                  int(casa_stats[3].get_text()), int(fora_stats[3].get_text()), int(casa_stats[4].get_text()), int(fora_stats[4].get_text())
+                                  , int(casa_stats[5].get_text()), int(fora_stats[5].get_text()), int(casa_stats[6].get_text()), int(fora_stats[6].get_text()),
+                                  int(casa_stats[7].get_text()), int(fora_stats[7].get_text()), int(casa_stats[8].get_text()), int(fora_stats[8].get_text()),
+                                  int(casa_stats[9].get_text()), int(fora_stats[9].get_text())
+                                  , int(casa_stats[10].get_text()), int(fora_stats[10].get_text()), 0, 0,
+                                  int(casa_stats[11].get_text()), int(fora_stats[11].get_text()), int(casa_stats[12].get_text()), int(fora_stats[12].get_text()),
+                                  int(casa_stats[13].get_text()), int(fora_stats[13].get_text())
+                                  , int(casa_stats[14].get_text()), int(fora_stats[14].get_text()), int(casa_stats[15].get_text()), int(fora_stats[15].get_text()), int(casa_stats[16].get_text()), int(fora_stats[16].get_text()))
+    elif stats_name [11]  =="Cartões amarelos":
+        Banco_Dados.add_jogos("Premier League", id_jogo, times[0].get_text(), home,times[1].get_text(),
+                              away, data_hora[0].get_text(),rodada.get_text(), casa_stats[0].get_text(), fora_stats[0].get_text()
+                              , int(casa_stats[1].get_text()), int(fora_stats[1].get_text()), int(casa_stats[2].get_text()), int(fora_stats[2].get_text()),
+                              int(casa_stats[3].get_text()), int(fora_stats[3].get_text()), int(casa_stats[4].get_text()), int(fora_stats[4].get_text())
+                              , int(casa_stats[5].get_text()), int(fora_stats[5].get_text()), int(casa_stats[6].get_text()), int(fora_stats[6].get_text()),
+                              int(casa_stats[7].get_text()), int(fora_stats[7].get_text()), int(casa_stats[8].get_text()), int(fora_stats[8].get_text()),
+                              int(casa_stats[9].get_text()), int(fora_stats[9].get_text())
+                              , 0, 0, int(casa_stats[10].get_text()), int(fora_stats[10].get_text()),
+                              int(casa_stats[11].get_text()), int(fora_stats[11].get_text()), int(casa_stats[12].get_text()), int(fora_stats[12].get_text()),
+                              int(casa_stats[13].get_text()), int(fora_stats[13].get_text())
+                              , int(casa_stats[14].get_text()), int(fora_stats[14].get_text()), int(casa_stats[15].get_text()), int(fora_stats[15].get_text()), int(casa_stats[16].get_text()), int(fora_stats[16].get_text()))
+    else:
+        Banco_Dados.add_jogos("Premier League", id_jogo, times[0].get_text(), int(home), times[1].get_text(),
+                              int(away), data_hora[0].get_text(),rodada.get_text(), casa_stats[0].get_text(), fora_stats[0].get_text()
+                              , int(casa_stats[1].get_text()), int(fora_stats[1].get_text()), int(casa_stats[2].get_text()), int(fora_stats[2].get_text()),
+                              int(casa_stats[3].get_text()), int(fora_stats[3].get_text()), int(casa_stats[4].get_text()), int(fora_stats[4].get_text())
+                              , int(casa_stats[5].get_text()), int(fora_stats[5].get_text()), int(casa_stats[6].get_text()), int(fora_stats[6].get_text()),
+                              int(casa_stats[7].get_text()), int(fora_stats[7].get_text()), int(casa_stats[8].get_text()), int(fora_stats[8].get_text()),
+                              int(casa_stats[9].get_text()), int(fora_stats[9].get_text())
+                              , 0,0,0,0 ,
+                              int(casa_stats[10].get_text()), int(fora_stats[10].get_text()), int(casa_stats[11].get_text()), int(fora_stats[11].get_text()),
+                              int(casa_stats[12].get_text()), int(fora_stats[12].get_text())
+                              , int(casa_stats[13].get_text()), int(fora_stats[13].get_text()), int(casa_stats[14].get_text()), int(fora_stats[14].get_text()), int(casa_stats[15].get_text()), int(fora_stats[15].get_text()))
 
-        print(stats_name[cont2].get_text(), " ", casa_stats[cont2].get_text(), " x ", fora_stats[cont2].get_text())
-        cont2+=1
-    print("-------------------------------------------------------------------------------------------------------------")
 
 
 
@@ -81,15 +116,15 @@ browser = webdriver.Chrome()
 
 
 # Criando o banco de dados
-
 def __init__(self) -> None:
-    create_db = not os.path.isfile('matches.db')
+    create_db = not os.path.isfile('FlashScore.db')
     if create_db:
         Banco_Dados.criar_BD()
     self.error_count = 0
+
 # Acessando o flashScore
 browser.get('https://www.flashscore.com.br/futebol/inglaterra/campeonato-ingles/resultados/')
-sleep(1)
+sleep(5)
 raspagemDados(browser)
 
 
