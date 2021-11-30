@@ -14,7 +14,7 @@ def criar_BD() -> None:
                             name VARCHAR(45) NOT NULL
                             )'''
                            )
-            conn.commit()
+
             cursor.execute('''
                         CREATE TABLE Jogos(id_jogo VARCHAR (20) primary key ,casa VARCHAR (20) NOT NULL, resultado_casa INTEGER NOT NULL ,fora VARCHAR (20) NOT NULL ,resultado_fora INTEGER NOT NULL ,date VARCHAR(10) NOT NULL,
                             rodada VARCHAR (30)NOT NULL,posse_bola_casa VARCHAR (5) NOT NULL,posse_bola_fora VARCHAR (5) NOT NULL,tentativas_gol_casa INTEGER NOT NULL,tentativas_gol_fora INTEGER NOT NULL,finalizacoes_casa INTEGER NOT NULL,
@@ -23,7 +23,7 @@ def criar_BD() -> None:
                             laterais_cobrados_fora INTEGER NOT NULL , defesas_goleiro_casa INTEGER NOT NULL ,defesas_goleiro_fora INTEGER NOT NULL , faltas_casa INTEGER NOT NULL , faltas_fora INTEGER NOT NULL ,cartoes_vermelhos_casa INTEGER NOT NULL ,
                             cartoes_vermelhos_fora INTEGER NOT NULL , cartoes_amarelos_casa INTEGER NOT NULL , cartoes_amarelos_fora INTEGER NOT NULL ,total_passes_casa INTEGER NOT NULL ,total_passes_fora INTEGER NOT NULL ,
                             passes_completos_casa INTEGER NOT NULL , passes_completos_fora INTEGER NOT NULL ,desarmes_casa INTEGER NOT NULL , desarmes_fora INTEGER NOT NULL ,ataques_casa INTEGER NOT NULL ,ataques_fora INTEGER NOT NULL ,
-                            ataques_perigosos_casa INTEGER NOT NULL , ataques_perigosos_fora INTEGER NOT NULL , fk_id_campeonato INTEGER NOT NULL,ADD FOREIGN KEY(fk_id_campeonato) REFERENCES Campeonato (id_campeonato))'''
+                            ataques_perigosos_casa INTEGER NOT NULL , ataques_perigosos_fora INTEGER NOT NULL , fk_id_campeonato INTEGER NOT NULL, FOREIGN KEY(fk_id_campeonato) REFERENCES Campeonato (id_campeonato))'''
                            )
 
 
