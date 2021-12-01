@@ -61,7 +61,7 @@ def criar_BD() -> None:
                                            ataques_perigosos_fora INTEGER NOT NULL ,
                                            fk_id_campeonato INTEGER NOT NULL,
                                            FOREIGN KEY(fk_id_campeonato) REFERENCES Campeonato (id_campeonato))'''
-                           ) 45
+                           )
 
 
 
@@ -100,11 +100,12 @@ def add_jogos(campeonato: int,id: str, casa: str, resultado_casa: int, fora: str
         with closing(conn.cursor()) as cursor:
             cursor.execute('PRAGMA foreign_keys = ON;')
             fk_id_campeonato = add_campeonato(campeonato)
+            print(fk_id_campeonato)
             cursor.execute('''INSERT INTO Jogos (id_jogo , casa , resultado_casa , fora , resultado_fora , date, rodada , posse_bola_casa ,posse_bola_fora ,tentativas_gol_casa ,tentativas_gol_fora ,finalizacoes_casa ,
                             finalizacoes_fora , chute_fora_casa , chute_fora_fora , chutes_bloqueados_casa  ,chutes_bloqueados_fora ,faltas_cobradas_casa ,faltas_cobradas_fora ,escanteios_casa ,escanteios_fora ,impedimentos_casa ,
                             impedimentos_fora ,laterais_cobrados_casa ,laterais_cobrados_fora, defesas_goleiro_casa ,defesas_goleiro_fora,faltas_casa , faltas_fora,cartoes_vermelhos_casa ,cartoes_vermelhos_fora,cartoes_amarelos_casa,
                             cartoes_amarelos_fora ,total_passes_casa ,total_passes_fora , passes_completos_casa, passes_completos_fora, desarmes_casa ,desarmes_fora,ataques_casa ,ataques_fora ,ataques_perigosos_casa,ataques_perigosos_fora,
-                            fk_id_campeonato)
+                            fk_id_campeonato)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                                                
                                        ''',(id,casa,resultado_casa,fora,resultado_fora,data,rodada,posse_bola_casa,posse_bola_fora,tentativas_gol_casa,tentativas_gol_fora,finalizaçoes_casa,finalizacoes_fora,chute_fora_casa,
                                             chute_fora_fora,chutes_bloqueados_casa,chutes_bloqueados_fora,faltas_cobradas_casa,faltas_cobradas_fora,escanteios_casa,escateios_fora,impedimentos_casa,impedimentos_fora,laterais_cobrados_casa,
