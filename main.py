@@ -6,12 +6,16 @@ import Banco_Dados
 
 def raspagemDados(navegador):
     # Acessando os jogos da premier League
+    # A variável todos realiza um click na pagina para carregar todos os jogos da pagina
     todos = navegador.find_element_by_xpath('/html/body/div[5]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div/div/a').click()
     sleep(5)
+    #A variável jogos dar acesso ao html aonde os jogos estão
     jogos = navegador.find_element_by_xpath('/html/body/div[5]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div')
     html_content = jogos.get_attribute('outerHTML')
     soup = BeautifulSoup(html_content, 'html.parser')
+    # a Variavel casa o resultado do time da casa
     casa = soup.find_all('div', class_='event__score event__score--home')
+    # a Variavel fora o resultado do time de fora
     fora = soup.find_all('div', class_='event__score event__score--away')
     cont=0
     ultimo=0
@@ -20,7 +24,7 @@ def raspagemDados(navegador):
         if ultimo==9:
             cont+=1
             ultimo=0
-
+        #Id de cada partida
         id_jogo=rodada['id']
         id_j = id_jogo[4:]
         #mudando o id na url
@@ -30,7 +34,7 @@ def raspagemDados(navegador):
         ultimo+=1
 
     cont=9
-    #ultimo jogo de cada rodada
+    #Como a div da pagina para o ultimo jogo de cada rodada é diferente, temos que criar esse for para raspar os dados da ultima partida
     for rod in soup.find_all('div', attrs={"class": "event__match event__match--static event__match--last event__match--twoLine"}):
         id_jog = rod['id']
         id_jj = id_jog[4:]
@@ -54,16 +58,22 @@ def raspagem_stats(url,home, away, id_jogo):
     rodada = v[4]
 
     # Rodada
-
+    # O nome de cada time
     times = soup2.find_all('div', class_='participant__participantName participant__overflow')
-
+    #data e hora do jogo
     data_hora = soup2.find_all('div', class_='duelParticipant__startTime')
+    #Nome de casa estatistica
     stats_name = soup2.find_all('div', class_='statCategoryName')
+    # Estatisticas do time da casa
     casa_stats = soup2.find_all('div', class_='statHomeValue')
+    #Estatistica do time de fora
     fora_stats = soup2.find_all('div', class_='statAwayValue')
 
-    #Estatisticas
+
+    #Em alguns jogos não contem cartões e com isso o html não gera estatisticas dos mesmo e com isso os dados dos cartões tem que ser inseridos manualmente
+    #Aqui verificamos se nessa posição das estatiscas estar localizado os cartões vermelhos
     if stats_name [11].get_text()  =="Cartões vermelhos":
+        # Se existe algum cartão vermlho na partida, vericamos se nessa partida tambem houve cartões amarelos
         if stats_name [12].get_text()  =="Cartões amarelos":
             Banco_Dados.add_jogos("Premier League", id_jogo,times[0].get_text(),home,times[1].get_text(),away,data_hora[0].get_text(),rodada.get_text(), casa_stats[0].get_text(),fora_stats[0].get_text(),
                                   int(casa_stats[1].get_text()),int(fora_stats[1].get_text()),int(casa_stats[2].get_text()),int(fora_stats[2].get_text()),int(casa_stats[3].get_text()),int(fora_stats[3].get_text()),
@@ -72,6 +82,7 @@ def raspagem_stats(url,home, away, id_jogo):
                                   ,int(casa_stats[10].get_text()),int(fora_stats[10].get_text() ),int(casa_stats[11].get_text()),int(fora_stats[11].get_text()),int(casa_stats[12].get_text()),int(fora_stats[12].get_text()),
                                   int(casa_stats[13].get_text()),int(fora_stats[13].get_text()),int(casa_stats[14].get_text()),int(fora_stats[14].get_text())
                                   ,int(casa_stats[15].get_text()),int(fora_stats[15].get_text()),int(casa_stats[16].get_text()),int(fora_stats[16].get_text()),int(casa_stats[17].get_text()),int(fora_stats[17].get_text()))
+        # Se não houver adicionamos os cartões amarelos de modo manual
         else:
 
             Banco_Dados.add_jogos("Premier League", id_jogo, times[0].get_text(), home,
@@ -85,6 +96,7 @@ def raspagem_stats(url,home, away, id_jogo):
                                   int(casa_stats[11].get_text()), int(fora_stats[11].get_text()), int(casa_stats[12].get_text()), int(fora_stats[12].get_text()),
                                   int(casa_stats[13].get_text()), int(fora_stats[13].get_text()), int(casa_stats[14].get_text()), int(fora_stats[14].get_text()),
                                   int(casa_stats[15].get_text()), int(fora_stats[15].get_text()),int(casa_stats[16].get_text()),int(fora_stats[16].get_text()))
+    # Se não existir cartão vermelho na partida mas houver amarelos, inserimos os cartçoes vermelhos de modo manual
     elif stats_name [11].get_text() =="Cartões amarelos":
 
         Banco_Dados.add_jogos("Premier League", id_jogo, times[0].get_text(), home,times[1].get_text(),
@@ -97,6 +109,7 @@ def raspagem_stats(url,home, away, id_jogo):
                               int(casa_stats[11].get_text()), int(fora_stats[11].get_text()), int(casa_stats[12].get_text()), int(fora_stats[12].get_text()),
                               int(casa_stats[13].get_text()), int(fora_stats[13].get_text()), int(casa_stats[14].get_text()), int(fora_stats[14].get_text()),
                               int(casa_stats[15].get_text()), int(fora_stats[15].get_text()),int(casa_stats[16].get_text()),int(fora_stats[16].get_text()))
+    # E no ultimo caso se não existir cartões na partida, inserimos os amarelos e vermelhos de modo manual
     else:
         Banco_Dados.add_jogos("Premier League", id_jogo, times[0].get_text(), int(home), times[1].get_text(),
                               int(away), data_hora[0].get_text(),rodada.get_text(), casa_stats[0].get_text(), fora_stats[0].get_text()
