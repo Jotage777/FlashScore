@@ -2,7 +2,6 @@ from selenium import webdriver
 from bs4 import BeautifulSoup
 from time import sleep
 import os
-import time
 import Banco_Dados
 
 def raspagemDados(navegador):
