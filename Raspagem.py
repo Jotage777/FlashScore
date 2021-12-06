@@ -3,11 +3,6 @@ from bs4 import BeautifulSoup
 from time import sleep
 import Banco_Dados
 
-
-
-
-
-
 def raspagemDados(navegador,liga):
     # Acessando os jogos da Liga escolhida
     # A variável todos realiza um click na pagina para carregar todos os jogos da pagina
@@ -21,7 +16,6 @@ def raspagemDados(navegador,liga):
 
         else:
           break
-
 
     #A variável jogos dar acesso ao html aonde os jogos estão
 
@@ -47,7 +41,6 @@ def raspagemDados(navegador,liga):
         raspagem_stats(caminho, casa[cont].get_text(), fora[cont].get_text(), id_j,liga)
         cont+=1
         ultimo+=1
-
     cont=9
     #Como a div da pagina para o ultimo jogo de cada rodada é diferente, temos que criar esse for para raspar os dados da ultima partida
     for rod in soup.find_all('div', attrs={"class": "event__match event__match--static event__match--last event__match--twoLine"}):
@@ -57,14 +50,9 @@ def raspagemDados(navegador,liga):
         raspagem_stats(caminho1, casa[cont].get_text(), fora[cont].get_text(), id_jj,liga)
         cont+=10
 
-
-
-
-
 def raspagem_stats(url,home, away, id_jogo,liga):
     nave=webdriver.Chrome()
     nave.get(url)
-
 
     jogo = nave.find_element_by_xpath('/html/body/div[2]/div')
     html_2 = jogo.get_attribute('outerHTML')
@@ -83,185 +71,29 @@ def raspagem_stats(url,home, away, id_jogo,liga):
     casa_stats = soup2.find_all('div', class_='statHomeValue')
     #Estatistica do time de fora
     fora_stats = soup2.find_all('div', class_='statAwayValue')
+    #Lista com todos os nomes das estatisticas da partida
+    nome_stats=['Posse de bola','Tentativas de gol','Finalizações','Chutes fora','Chutes bloqueados','Faltas cobradas','Escanteios','Impedimentos','Laterais cobrados','Defesas do goleiro','Faltas','Cartões vermelhos',
+                'Cartões amarelos','Total de passes','Passes completados','Desarmes','Ataques','Ataques Perigosos']
+    #lista para guardar as estatisticas do time da casa e de fora
     stats_partidas=[]
     cont_stats=0
     #Verificar se na partida estar contida todas as estatisticas, pois o site se não acontecer nenhum evento daquela estatistica, o mesmo não coloca aquela estatisca
     for i in range(18):
         if i == 0:
-            if stats_name[cont_stats].get_text()=='Posse de bola':
+            if stats_name[cont_stats].get_text()==nome_stats[i]:
                 stats_partidas.append(casa_stats[cont_stats].get_text())
                 stats_partidas.append(fora_stats[cont_stats].get_text())
                 cont_stats+=1
             else:
                 stats_partidas.append('0')
                 stats_partidas.append('0')
-        elif i == 1:
-            if stats_name[cont_stats].get_text()=='Tentativas de gol':
+        else:
+            if stats_name[cont_stats].get_text()==nome_stats[i]:
                 transformar = int(casa_stats[cont_stats].get_text())
                 stats_partidas.append(transformar)
                 transformar = int(fora_stats[cont_stats].get_text())
                 stats_partidas.append(transformar)
                 cont_stats+=1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 2:
-            if stats_name[cont_stats].get_text() == 'Finalizações':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 3:
-            if stats_name[cont_stats].get_text() == 'Chutes fora':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 4:
-            if stats_name[cont_stats].get_text() == 'Chutes bloqueados':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 5:
-            if stats_name[cont_stats].get_text() == 'Faltas cobradas':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 6:
-            if stats_name[cont_stats].get_text() == 'Escanteios':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 7:
-            if stats_name[cont_stats].get_text() == 'Impedimentos':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 8:
-            if stats_name[cont_stats].get_text() == 'Laterais cobrados':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 9:
-            if stats_name[cont_stats].get_text() == 'Defesas do goleiro':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 10:
-            if stats_name[cont_stats].get_text() == 'Faltas':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 11:
-            if stats_name[cont_stats].get_text() == 'Cartões vermelhos':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 12:
-            if stats_name[cont_stats].get_text() == 'Cartões amarelos':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 13:
-            if stats_name[cont_stats].get_text() == 'Total de passes':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 14:
-            if stats_name[cont_stats].get_text() == 'Passes completados':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 15:
-            if stats_name[cont_stats].get_text() == 'Desarmes':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 16:
-            if stats_name[cont_stats].get_text() == 'Ataques':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
-            else:
-                stats_partidas.append(0)
-                stats_partidas.append(0)
-        elif i == 17:
-            if stats_name[cont_stats].get_text() == 'Ataques Perigosos':
-                transformar = int(casa_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                transformar = int(fora_stats[cont_stats].get_text())
-                stats_partidas.append(transformar)
-                cont_stats += 1
             else:
                 stats_partidas.append(0)
                 stats_partidas.append(0)
@@ -270,4 +102,3 @@ def raspagem_stats(url,home, away, id_jogo,liga):
                           stats_partidas[5],stats_partidas[6],stats_partidas[7],stats_partidas[8],stats_partidas[9],stats_partidas[10],stats_partidas[11],stats_partidas[12],stats_partidas[13],stats_partidas[14],
                           stats_partidas[15],stats_partidas[16],stats_partidas[17],stats_partidas[18],stats_partidas[19],stats_partidas[20],stats_partidas[21],stats_partidas[22],stats_partidas[23],stats_partidas[24],
                           stats_partidas[25],stats_partidas[26],stats_partidas[27],stats_partidas[28],stats_partidas[29],stats_partidas[30],stats_partidas[31],stats_partidas[32],stats_partidas[33],stats_partidas[34],stats_partidas[35])
-
