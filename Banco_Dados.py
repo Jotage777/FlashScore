@@ -14,12 +14,17 @@ def criar_BD() -> None:
                             name VARCHAR(45) NOT NULL
                             )'''
                            )
-
+            cursor.execute('''
+                                    CREATE TABLE Times(
+                                        id_time INTEGER primary key AUTOINCREMENT ,
+                                        name VARCHAR(45) NOT NULL
+                                        )'''
+                           )
             cursor.execute('''
                         CREATE TABLE Jogos(id_jogo VARCHAR (20) primary key ,
-                                          casa VARCHAR (20) NOT NULL,
+                                          fk_id_casa INTEGER NOT NULL,
                                            resultado_casa INTEGER NOT NULL ,
-                                           fora VARCHAR (20) NOT NULL ,
+                                           fk_id_fora INTEGER  NOT NULL ,
                                            resultado_fora INTEGER NOT NULL ,
                                            date VARCHAR(10) NOT NULL,
                                            rodada VARCHAR (30)NOT NULL,
@@ -60,6 +65,8 @@ def criar_BD() -> None:
                                            ataques_perigosos_casa INTEGER NOT NULL ,
                                            ataques_perigosos_fora INTEGER NOT NULL ,
                                            fk_id_campeonato INTEGER NOT NULL,
+                                           FOREIGN KEY(fk_id_casa) REFERENCES Times (id_time),
+                                           FOREIGN KEY(fk_id_fora) REFERENCES Times (id_time),
                                            FOREIGN KEY(fk_id_campeonato) REFERENCES Campeonato (id_campeonato))'''
                            )
 
@@ -89,6 +96,26 @@ def add_campeonato(campeonato: str) -> int:
                 conn.commit()
                 return result[0]
 
+def add_times(time: str) -> int:
+    with sqlite3.connect('FlashScore.db') as conn:
+        with closing(conn.cursor()) as cursor:
+            cursor.execute('PRAGMA foreign_keys = ON;')
+            cursor.execute('''SELECT id_time FROM Times WHERE name = ?''',
+                           (time,))
+            result = cursor.fetchone()
+            if result == None:
+
+                cursor.execute('''INSERT INTO Times (name ) 
+                                VALUES(?)''', (time,))
+
+                cursor.execute('''SELECT id_time FROM Times WHERE name = ?''',
+                               (time,))
+                result = cursor.fetchone()
+                conn.commit()
+                return result[0]
+            else:
+                conn.commit()
+                return result[0]
 
 def add_jogos(campeonato: int,id: str, casa: str, resultado_casa: int, fora: str, resultado_fora: int, data: str, rodada: str, posse_bola_casa: str, posse_bola_fora:str, tentativas_gol_casa: int, tentativas_gol_fora: int,
               finalizaçoes_casa:int, finalizacoes_fora:int, chute_fora_casa:int,chute_fora_fora:int,chutes_bloqueados_casa:int,chutes_bloqueados_fora: int,faltas_cobradas_casa: int,
@@ -100,14 +127,16 @@ def add_jogos(campeonato: int,id: str, casa: str, resultado_casa: int, fora: str
         with closing(conn.cursor()) as cursor:
             cursor.execute('PRAGMA foreign_keys = ON;')
             fk_id_campeonato = add_campeonato(campeonato)
-            print(fk_id_campeonato)
-            cursor.execute('''INSERT INTO Jogos (id_jogo , casa , resultado_casa , fora , resultado_fora , date, rodada , posse_bola_casa ,posse_bola_fora ,tentativas_gol_casa ,tentativas_gol_fora ,finalizacoes_casa ,
+            fk_id_casa = add_times(casa)
+            fk_id_fora = add_times(fora)
+
+            cursor.execute('''INSERT INTO Jogos (id_jogo , fk_id_casa , resultado_casa , fk_id_fora , resultado_fora , date, rodada , posse_bola_casa ,posse_bola_fora ,tentativas_gol_casa ,tentativas_gol_fora ,finalizacoes_casa ,
                             finalizacoes_fora , chute_fora_casa , chute_fora_fora , chutes_bloqueados_casa  ,chutes_bloqueados_fora ,faltas_cobradas_casa ,faltas_cobradas_fora ,escanteios_casa ,escanteios_fora ,impedimentos_casa ,
                             impedimentos_fora ,laterais_cobrados_casa ,laterais_cobrados_fora, defesas_goleiro_casa ,defesas_goleiro_fora,faltas_casa , faltas_fora,cartoes_vermelhos_casa ,cartoes_vermelhos_fora,cartoes_amarelos_casa,
                             cartoes_amarelos_fora ,total_passes_casa ,total_passes_fora , passes_completos_casa, passes_completos_fora, desarmes_casa ,desarmes_fora,ataques_casa ,ataques_fora ,ataques_perigosos_casa,ataques_perigosos_fora,
                             fk_id_campeonato)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                                                
-                                       ''',(id,casa,resultado_casa,fora,resultado_fora,data,rodada,posse_bola_casa,posse_bola_fora,tentativas_gol_casa,tentativas_gol_fora,finalizaçoes_casa,finalizacoes_fora,chute_fora_casa,
+                                       ''',(id,fk_id_casa,resultado_casa,fk_id_fora,resultado_fora,data,rodada,posse_bola_casa,posse_bola_fora,tentativas_gol_casa,tentativas_gol_fora,finalizaçoes_casa,finalizacoes_fora,chute_fora_casa,
                                             chute_fora_fora,chutes_bloqueados_casa,chutes_bloqueados_fora,faltas_cobradas_casa,faltas_cobradas_fora,escanteios_casa,escateios_fora,impedimentos_casa,impedimentos_fora,laterais_cobrados_casa,
                                             laterais_cobrados_fora,defesas_goleiro_casa,defesas_goleiros_fora,faltas_casa,faltas_fora,cartoes_vermelhos_casa,cartoes_vermelhos_fora,cartoes_amarelos_casa,cartoes_amarelos_fora,total_passes_casa,total_passes_fora,
                                             passes_completos_casa,passes_completos_fora,desarmes_casa,desarmes_fora,ataques_casa,ataques_fora,ataques_perigosos_casa,ataques_perigosos_fora, fk_id_campeonato))
