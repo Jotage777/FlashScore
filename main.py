@@ -22,23 +22,18 @@ def menu():
             browser = webdriver.Chrome()
             if escolha==1:
                 browser.get('https://www.flashscore.com.br/futebol/inglaterra/campeonato-ingles/resultados/')
-                sleep(5)
                 Raspagem.raspagemDados(browser,'Premier League')
             elif escolha==2:
                 browser.get('https://www.flashscore.com.br/futebol/franca/ligue-1/resultados/')
-                sleep(5)
                 Raspagem.raspagemDados(browser,'Ligue 1')
             elif escolha ==3:
                 browser.get('https://www.flashscore.com.br/futebol/espanha/laliga/resultados/')
-                sleep(5)
                 Raspagem.raspagemDados(browser,'LaLiga')
             elif escolha ==4:
                 browser.get('https://www.flashscore.com.br/futebol/alemanha/bundesliga/resultados/')
-                sleep(5)
                 Raspagem.raspagemDados(browser,'Budesliga')
             elif escolha ==5:
                 browser.get('https://www.flashscore.com.br/futebol/italia/serie-a/resultados/')
-                sleep(5)
                 Raspagem.raspagemDados(browser,'Serie A')
         else:
             print("Escolha indisponivel, tente novamnete")
