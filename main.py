@@ -35,6 +35,9 @@ def menu():
             elif escolha ==5:
                 browser.get('https://www.flashscore.com.br/futebol/italia/serie-a/resultados/')
                 Raspagem.raspagemDados(browser,'Serie A')
+        elif escolha==6:
+            print("Obrigado por usar a ferramenta")
+            break
         else:
             print("Escolha indisponivel, tente novamnete")
 
