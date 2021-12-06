@@ -17,7 +17,7 @@ def menu():
         print("Digite 4 para realizar a raspagem de dados da Budesliga")
         print("Digite 5 para realizar a raspagem de dados da Serie A")
         print("Digite 6 para sair do menu")
-        escolha=int(input('Escolha uma das opções acima:'))
+        escolha=int(input('Escolha uma das opções:'))
         if escolha == 1 or escolha==2 or escolha==3 or escolha==4 or escolha==5:
             browser = webdriver.Chrome()
             if escolha==1:
