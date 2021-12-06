@@ -3,11 +3,26 @@ from bs4 import BeautifulSoup
 from time import sleep
 import Banco_Dados
 
+
+
+
+
+
 def raspagemDados(navegador,liga):
     # Acessando os jogos da Liga escolhida
     # A variável todos realiza um click na pagina para carregar todos os jogos da pagina
-    todos = navegador.find_element_by_xpath('/html/body/div[5]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div/div/a').click()
-    sleep(5)
+    while True:
+        try:
+           todos = navegador.find_element_by_xpath('/html/body/div[5]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div/div/a').click()
+
+        except:
+            print(f'\nErro na pagina html...')
+            sleep(1)
+
+        else:
+          break
+
+
     #A variável jogos dar acesso ao html aonde os jogos estão
 
     jogos = navegador.find_element_by_xpath('/html/body/div[5]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div')
@@ -49,7 +64,7 @@ def raspagemDados(navegador,liga):
 def raspagem_stats(url,home, away, id_jogo,liga):
     nave=webdriver.Chrome()
     nave.get(url)
-    sleep(5)
+
 
     jogo = nave.find_element_by_xpath('/html/body/div[2]/div')
     html_2 = jogo.get_attribute('outerHTML')
@@ -255,3 +270,4 @@ def raspagem_stats(url,home, away, id_jogo,liga):
                           stats_partidas[5],stats_partidas[6],stats_partidas[7],stats_partidas[8],stats_partidas[9],stats_partidas[10],stats_partidas[11],stats_partidas[12],stats_partidas[13],stats_partidas[14],
                           stats_partidas[15],stats_partidas[16],stats_partidas[17],stats_partidas[18],stats_partidas[19],stats_partidas[20],stats_partidas[21],stats_partidas[22],stats_partidas[23],stats_partidas[24],
                           stats_partidas[25],stats_partidas[26],stats_partidas[27],stats_partidas[28],stats_partidas[29],stats_partidas[30],stats_partidas[31],stats_partidas[32],stats_partidas[33],stats_partidas[34],stats_partidas[35])
+
