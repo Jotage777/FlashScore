@@ -68,57 +68,190 @@ def raspagem_stats(url,home, away, id_jogo,liga):
     casa_stats = soup2.find_all('div', class_='statHomeValue')
     #Estatistica do time de fora
     fora_stats = soup2.find_all('div', class_='statAwayValue')
+    stats_partidas=[]
+    cont_stats=0
+    #Verificar se na partida estar contida todas as estatisticas, pois o site se não acontecer nenhum evento daquela estatistica, o mesmo não coloca aquela estatisca
+    for i in range(18):
+        if i == 0:
+            if stats_name[cont_stats].get_text()=='Posse de bola':
+                stats_partidas.append(casa_stats[cont_stats].get_text())
+                stats_partidas.append(fora_stats[cont_stats].get_text())
+                cont_stats+=1
+            else:
+                stats_partidas.append('0')
+                stats_partidas.append('0')
+        elif i == 1:
+            if stats_name[cont_stats].get_text()=='Tentativas de gol':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats+=1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 2:
+            if stats_name[cont_stats].get_text() == 'Finalizações':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 3:
+            if stats_name[cont_stats].get_text() == 'Chutes fora':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 4:
+            if stats_name[cont_stats].get_text() == 'Chutes bloqueados':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 5:
+            if stats_name[cont_stats].get_text() == 'Faltas cobradas':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 6:
+            if stats_name[cont_stats].get_text() == 'Escanteios':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 7:
+            if stats_name[cont_stats].get_text() == 'Impedimentos':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 8:
+            if stats_name[cont_stats].get_text() == 'Laterais cobrados':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 9:
+            if stats_name[cont_stats].get_text() == 'Defesas do goleiro':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 10:
+            if stats_name[cont_stats].get_text() == 'Faltas':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 11:
+            if stats_name[cont_stats].get_text() == 'Cartões vermelhos':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 12:
+            if stats_name[cont_stats].get_text() == 'Cartões amarelos':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 13:
+            if stats_name[cont_stats].get_text() == 'Total de passes':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 14:
+            if stats_name[cont_stats].get_text() == 'Passes completados':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 15:
+            if stats_name[cont_stats].get_text() == 'Desarmes':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 16:
+            if stats_name[cont_stats].get_text() == 'Ataques':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
+        elif i == 17:
+            if stats_name[cont_stats].get_text() == 'Ataques Perigosos':
+                transformar = int(casa_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                transformar = int(fora_stats[cont_stats].get_text())
+                stats_partidas.append(transformar)
+                cont_stats += 1
+            else:
+                stats_partidas.append(0)
+                stats_partidas.append(0)
 
-
-    #Em alguns jogos não contem cartões e com isso o html não gera estatisticas dos mesmo e com isso os dados dos cartões tem que ser inseridos manualmente
-    #Aqui verificamos se nessa posição das estatiscas estar localizado os cartões vermelhos
-    if stats_name [11].get_text()  =="Cartões vermelhos":
-        # Se existe algum cartão vermlho na partida, vericamos se nessa partida tambem houve cartões amarelos
-        if stats_name [12].get_text()  =="Cartões amarelos":
-            Banco_Dados.add_jogos(liga, id_jogo,times[0].get_text(),home,times[1].get_text(),away,data_hora[0].get_text(),rodada.get_text(), casa_stats[0].get_text(),fora_stats[0].get_text(),
-                                  int(casa_stats[1].get_text()),int(fora_stats[1].get_text()),int(casa_stats[2].get_text()),int(fora_stats[2].get_text()),int(casa_stats[3].get_text()),int(fora_stats[3].get_text()),
-                                  int(casa_stats[4].get_text()),int(fora_stats[4].get_text()),int(casa_stats[5].get_text()),int(fora_stats[5].get_text()),int(casa_stats[6].get_text()),int(fora_stats[6].get_text()),
-                                  int(casa_stats[7].get_text()),int(fora_stats[7].get_text()),int(casa_stats[8].get_text()),int(fora_stats[8].get_text()),int(casa_stats[9].get_text()),int(fora_stats[9].get_text())
-                                  ,int(casa_stats[10].get_text()),int(fora_stats[10].get_text() ),int(casa_stats[11].get_text()),int(fora_stats[11].get_text()),int(casa_stats[12].get_text()),int(fora_stats[12].get_text()),
-                                  int(casa_stats[13].get_text()),int(fora_stats[13].get_text()),int(casa_stats[14].get_text()),int(fora_stats[14].get_text())
-                                  ,int(casa_stats[15].get_text()),int(fora_stats[15].get_text()),int(casa_stats[16].get_text()),int(fora_stats[16].get_text()),int(casa_stats[17].get_text()),int(fora_stats[17].get_text()))
-        # Se não houver adicionamos os cartões amarelos de modo manual
-        else:
-
-            Banco_Dados.add_jogos(liga, id_jogo, times[0].get_text(), home,
-                                 times[1].get_text(), away, data_hora[0].get_text(),rodada.get_text(),
-                                  casa_stats[0].get_text(), fora_stats[0].get_text()
-                                  , int(casa_stats[1].get_text()), int(fora_stats[1].get_text()), int(casa_stats[2].get_text()), int(fora_stats[2].get_text()),
-                                  int(casa_stats[3].get_text()), int(fora_stats[3].get_text()), int(casa_stats[4].get_text()), int(fora_stats[4].get_text())
-                                  , int(casa_stats[5].get_text()), int(fora_stats[5].get_text()), int(casa_stats[6].get_text()), int(fora_stats[6].get_text()),
-                                  int(casa_stats[7].get_text()), int(fora_stats[7].get_text()), int(casa_stats[8].get_text()), int(fora_stats[8].get_text()),
-                                  int(casa_stats[9].get_text()), int(fora_stats[9].get_text()), int(casa_stats[10].get_text()), int(fora_stats[10].get_text()), 0, 0,
-                                  int(casa_stats[11].get_text()), int(fora_stats[11].get_text()), int(casa_stats[12].get_text()), int(fora_stats[12].get_text()),
-                                  int(casa_stats[13].get_text()), int(fora_stats[13].get_text()), int(casa_stats[14].get_text()), int(fora_stats[14].get_text()),
-                                  int(casa_stats[15].get_text()), int(fora_stats[15].get_text()),int(casa_stats[16].get_text()),int(fora_stats[16].get_text()))
-    # Se não existir cartão vermelho na partida mas houver amarelos, inserimos os cartçoes vermelhos de modo manual
-    elif stats_name [11].get_text() =="Cartões amarelos":
-
-        Banco_Dados.add_jogos(liga, id_jogo, times[0].get_text(), home,times[1].get_text(),
-                              away, data_hora[0].get_text(),rodada.get_text(), casa_stats[0].get_text(), fora_stats[0].get_text()
-                              , int(casa_stats[1].get_text()), int(fora_stats[1].get_text()), int(casa_stats[2].get_text()), int(fora_stats[2].get_text()),
-                              int(casa_stats[3].get_text()), int(fora_stats[3].get_text()), int(casa_stats[4].get_text()), int(fora_stats[4].get_text())
-                              , int(casa_stats[5].get_text()), int(fora_stats[5].get_text()), int(casa_stats[6].get_text()), int(fora_stats[6].get_text()),
-                              int(casa_stats[7].get_text()), int(fora_stats[7].get_text()), int(casa_stats[8].get_text()), int(fora_stats[8].get_text()),
-                              int(casa_stats[9].get_text()), int(fora_stats[9].get_text()), int(casa_stats[10].get_text()), int(fora_stats[10].get_text()),0,0,
-                              int(casa_stats[11].get_text()), int(fora_stats[11].get_text()), int(casa_stats[12].get_text()), int(fora_stats[12].get_text()),
-                              int(casa_stats[13].get_text()), int(fora_stats[13].get_text()), int(casa_stats[14].get_text()), int(fora_stats[14].get_text()),
-                              int(casa_stats[15].get_text()), int(fora_stats[15].get_text()),int(casa_stats[16].get_text()),int(fora_stats[16].get_text()))
-    # E no ultimo caso se não existir cartões na partida, inserimos os amarelos e vermelhos de modo manual
-    else:
-        Banco_Dados.add_jogos(liga, id_jogo, times[0].get_text(), int(home), times[1].get_text(),
-                              int(away), data_hora[0].get_text(),rodada.get_text(), casa_stats[0].get_text(), fora_stats[0].get_text()
-                              , int(casa_stats[1].get_text()), int(fora_stats[1].get_text()), int(casa_stats[2].get_text()), int(fora_stats[2].get_text()),
-                              int(casa_stats[3].get_text()), int(fora_stats[3].get_text()), int(casa_stats[4].get_text()), int(fora_stats[4].get_text())
-                              , int(casa_stats[5].get_text()), int(fora_stats[5].get_text()), int(casa_stats[6].get_text()), int(fora_stats[6].get_text()),
-                              int(casa_stats[7].get_text()), int(fora_stats[7].get_text()), int(casa_stats[8].get_text()), int(fora_stats[8].get_text()),
-                              int(casa_stats[9].get_text()), int(fora_stats[9].get_text()), 0,0,0,0 ,int(casa_stats[10].get_text()), int(fora_stats[10].get_text()),
-                              int(casa_stats[11].get_text()), int(fora_stats[11].get_text()),int(casa_stats[12].get_text()), int(fora_stats[12].get_text())
-                              ,int(casa_stats[13].get_text()), int(fora_stats[13].get_text()), int(casa_stats[14].get_text()),
-                              int(fora_stats[14].get_text()),int(casa_stats[15].get_text()),int(fora_stats[15].get_text()))
-
+    Banco_Dados.add_jogos(liga, id_jogo,times[0].get_text(),home,times[1].get_text(),away,data_hora[0].get_text(),rodada.get_text(),stats_partidas[0],stats_partidas[1],stats_partidas[2],stats_partidas[3],stats_partidas[4],
+                          stats_partidas[5],stats_partidas[6],stats_partidas[7],stats_partidas[8],stats_partidas[9],stats_partidas[10],stats_partidas[11],stats_partidas[12],stats_partidas[13],stats_partidas[14],
+                          stats_partidas[15],stats_partidas[16],stats_partidas[17],stats_partidas[18],stats_partidas[19],stats_partidas[20],stats_partidas[21],stats_partidas[22],stats_partidas[23],stats_partidas[24],
+                          stats_partidas[25],stats_partidas[26],stats_partidas[27],stats_partidas[28],stats_partidas[29],stats_partidas[30],stats_partidas[31],stats_partidas[32],stats_partidas[33],stats_partidas[34],stats_partidas[35])
