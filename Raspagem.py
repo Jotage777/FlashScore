@@ -4,7 +4,7 @@ from time import sleep
 import Banco_Dados
 
 def raspagemDados(navegador,liga):
-    # Acessando os jogos da premier League
+    # Acessando os jogos da Liga escolhida
     # A variável todos realiza um click na pagina para carregar todos os jogos da pagina
     todos = navegador.find_element_by_xpath('/html/body/div[5]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div/div/a').click()
     sleep(5)
