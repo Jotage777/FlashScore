@@ -126,18 +126,25 @@ def add_jogos(campeonato: int,id: str, casa: str, resultado_casa: int, fora: str
     with sqlite3.connect('FlashScore.db') as conn:
         with closing(conn.cursor()) as cursor:
             cursor.execute('PRAGMA foreign_keys = ON;')
-            fk_id_campeonato = add_campeonato(campeonato)
-            fk_id_casa = add_times(casa)
-            fk_id_fora = add_times(fora)
+            cursor.execute('''SELECT id_jogo FROM Jogos WHERE id_jogo = ?''',
+                           (id,))
+            result = cursor.fetchone()
+            if result == None:
+                fk_id_campeonato = add_campeonato(campeonato)
+                fk_id_casa = add_times(casa)
+                fk_id_fora = add_times(fora)
 
-            cursor.execute('''INSERT INTO Jogos (id_jogo , fk_id_casa , resultado_casa , fk_id_fora , resultado_fora , date, rodada , posse_bola_casa ,posse_bola_fora ,tentativas_gol_casa ,tentativas_gol_fora ,finalizacoes_casa ,
-                            finalizacoes_fora , chute_fora_casa , chute_fora_fora , chutes_bloqueados_casa  ,chutes_bloqueados_fora ,faltas_cobradas_casa ,faltas_cobradas_fora ,escanteios_casa ,escanteios_fora ,impedimentos_casa ,
-                            impedimentos_fora ,laterais_cobrados_casa ,laterais_cobrados_fora, defesas_goleiro_casa ,defesas_goleiro_fora,faltas_casa , faltas_fora,cartoes_vermelhos_casa ,cartoes_vermelhos_fora,cartoes_amarelos_casa,
-                            cartoes_amarelos_fora ,total_passes_casa ,total_passes_fora , passes_completos_casa, passes_completos_fora, desarmes_casa ,desarmes_fora,ataques_casa ,ataques_fora ,ataques_perigosos_casa,ataques_perigosos_fora,
-                            fk_id_campeonato)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-                                               
-                                       ''',(id,fk_id_casa,resultado_casa,fk_id_fora,resultado_fora,data,rodada,posse_bola_casa,posse_bola_fora,tentativas_gol_casa,tentativas_gol_fora,finalizaçoes_casa,finalizacoes_fora,chute_fora_casa,
-                                            chute_fora_fora,chutes_bloqueados_casa,chutes_bloqueados_fora,faltas_cobradas_casa,faltas_cobradas_fora,escanteios_casa,escateios_fora,impedimentos_casa,impedimentos_fora,laterais_cobrados_casa,
-                                            laterais_cobrados_fora,defesas_goleiro_casa,defesas_goleiros_fora,faltas_casa,faltas_fora,cartoes_vermelhos_casa,cartoes_vermelhos_fora,cartoes_amarelos_casa,cartoes_amarelos_fora,total_passes_casa,total_passes_fora,
-                                            passes_completos_casa,passes_completos_fora,desarmes_casa,desarmes_fora,ataques_casa,ataques_fora,ataques_perigosos_casa,ataques_perigosos_fora, fk_id_campeonato))
-        conn.commit()
+                cursor.execute('''INSERT INTO Jogos (id_jogo , fk_id_casa , resultado_casa , fk_id_fora , resultado_fora , date, rodada , posse_bola_casa ,posse_bola_fora ,tentativas_gol_casa ,tentativas_gol_fora ,finalizacoes_casa ,
+                                finalizacoes_fora , chute_fora_casa , chute_fora_fora , chutes_bloqueados_casa  ,chutes_bloqueados_fora ,faltas_cobradas_casa ,faltas_cobradas_fora ,escanteios_casa ,escanteios_fora ,impedimentos_casa ,
+                                impedimentos_fora ,laterais_cobrados_casa ,laterais_cobrados_fora, defesas_goleiro_casa ,defesas_goleiro_fora,faltas_casa , faltas_fora,cartoes_vermelhos_casa ,cartoes_vermelhos_fora,cartoes_amarelos_casa,
+                                cartoes_amarelos_fora ,total_passes_casa ,total_passes_fora , passes_completos_casa, passes_completos_fora, desarmes_casa ,desarmes_fora,ataques_casa ,ataques_fora ,ataques_perigosos_casa,ataques_perigosos_fora,
+                                fk_id_campeonato)VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                                                   
+                                           ''',(id,fk_id_casa,resultado_casa,fk_id_fora,resultado_fora,data,rodada,posse_bola_casa,posse_bola_fora,tentativas_gol_casa,tentativas_gol_fora,finalizaçoes_casa,finalizacoes_fora,chute_fora_casa,
+                                                chute_fora_fora,chutes_bloqueados_casa,chutes_bloqueados_fora,faltas_cobradas_casa,faltas_cobradas_fora,escanteios_casa,escateios_fora,impedimentos_casa,impedimentos_fora,laterais_cobrados_casa,
+                                                laterais_cobrados_fora,defesas_goleiro_casa,defesas_goleiros_fora,faltas_casa,faltas_fora,cartoes_vermelhos_casa,cartoes_vermelhos_fora,cartoes_amarelos_casa,cartoes_amarelos_fora,total_passes_casa,total_passes_fora,
+                                                passes_completos_casa,passes_completos_fora,desarmes_casa,desarmes_fora,ataques_casa,ataques_fora,ataques_perigosos_casa,ataques_perigosos_fora, fk_id_campeonato))
+                conn.commit()
+            else:
+                conn.commit()
+
