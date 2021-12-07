@@ -8,10 +8,9 @@ import Banco_Dados
 
 def raspagemDados(navegador,liga):
     # Acessando os jogos da Liga escolhida
-
     while True:
         try:
-            carregar= navegador.find_element_by_xpath('/html/body/div[5]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div/div/a')
+            carregar= navegador.find_element_by_xpath('/html/body/div[6]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div/div/a')
             while True:
                 try:
                   carregar.click()
@@ -22,7 +21,7 @@ def raspagemDados(navegador,liga):
                     break
         except NoSuchElementException:
             break
-    jogos = navegador.find_element_by_xpath('/html/body/div[5]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div')
+    jogos = navegador.find_element_by_xpath('/html/body/div[6]/div[1]/div/div[1]/div[2]/div[4]/div[2]/div[1]/div[1]/div/div')
     html_content = jogos.get_attribute('outerHTML')
     soup = BeautifulSoup(html_content, 'html.parser')
     cont = 0
